@@ -1,0 +1,21 @@
+  {
+  "name": "PF182-A01",
+  "version": "1.0.0",
+  "author": "Duc Dung Nguyen",
+  "email": "nddung (at) hcmut.edu.vn",
+
+  "WelcomeText": {
+    "line3": "******************************************************************************",
+    "line4": "*                  Welcome to CSE-HealthCare System                          *",
+    "line1": "*     This is a simple application designed for the first assignment of PF   *",
+    "line2": "* course (CO1011, Semester 182). The student must demonstrate the ability to *",
+  },
+  "Menu": {
+    "opt3": "Introduction",
+    "opt4": "Login",
+    "opt1": "Registration",
+    "opt5": "Help",
+    "opt2": "Exit"
+  },
+  "IntroTime": 3,
+}

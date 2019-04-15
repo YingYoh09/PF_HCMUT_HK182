@@ -1,0 +1,7 @@
+#file rac
+a.exe
+.vscode/ipch/
+
+#file test
+*.test
+test.cpp
