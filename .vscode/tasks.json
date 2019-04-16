@@ -8,9 +8,10 @@
 			"args": [
 				"-g",
 				//for single file
-				"${file}",
+				//"${file}",
 				//for project with header
-				//"${fileDirname}\\*.cpp"
+				//
+				"${fileDirname}\\*.cpp"
 			],
 			"group": {
 				"kind": "build",
