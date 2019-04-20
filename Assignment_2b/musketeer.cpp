@@ -142,7 +142,7 @@ void heroes::hostel(){
 	{
 		if (R >= 3 && Money > 2){
 			int P = R - 1;
-			while (P > 1 | !isPrimeNumber(P))
+			while (P > 1 && !isPrimeNumber(P))
 				P--;
 			while (R >= 3 && Money > 2 && Money >= P && HP < maxHP){
 				HP++;
@@ -306,7 +306,7 @@ void heroes::meetLancelot(int i, int Ei){
 bool heroes::isFibonacci(int a){
 	int fibo[3]{1, 1, 2};
 	int i = 3;
-	while (fibo[(i - 1) % 3] < a)
+	while (fibo[(i - 1) % 3] <= a)
 	{
 		fibo[(++i - 1) % 3] = fibo[(i - 2) % 3] + fibo[(i - 3) % 3];
 	}
