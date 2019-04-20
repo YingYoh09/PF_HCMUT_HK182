@@ -59,7 +59,6 @@ void advanture(int R, int N, int ID, int M, int* E, int nEvents) {
 			break;
 		case 1:
 			hero.hostel();
-			hero.diamond++;
 			break;
 		case 100 ... 199:
 			hero.meetGuard(i + 1, E[i]);
