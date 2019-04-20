@@ -1,9 +1,7 @@
 #include "musketeer.h"
 
 int main(int argc, char** argv) {
-    string filename = argv[1];
-    
-    if (argc == 2) {
+    string filename = "input.txt";
         int R, N, ID, M;
         int* E;
 
@@ -11,9 +9,5 @@ int main(int argc, char** argv) {
         
         if (nEvents >= 0)
             advanture(R, N, ID, M, E, nEvents);
-        else cout << "Cannot read input file or no events in advanture";
-    }
-    else cout << "Invalid argument list. Please try again";
-    
     return 0;
 }

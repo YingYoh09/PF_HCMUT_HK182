@@ -38,7 +38,8 @@ int readFile(string filename, int& R, int& N, int& ID, int& M, int*& E) {
             E[index++] = stoi(events.substr(0, spacePosition));
             events = events.substr(spacePosition + 1);
         }
-        
+        E[index] = stoi(events.substr(0, spacePosition));
+
         result = numOfSpaces + 1;
     }
     else result = 0;
