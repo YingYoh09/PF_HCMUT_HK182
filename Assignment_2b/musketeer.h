@@ -16,6 +16,9 @@
     * Output: Display in the rule in description.
     * PLEASE DO NOT CHANGE THE PROTOTYPE OF THIS FUNCTION
 */
+#ifndef musketeer_H
+#define musketeer_H
+
 class heroes
 {
 private:
@@ -53,4 +56,5 @@ public:
     bool isFibonacci(int a);
 };
 
+#endif
 void advanture(int R, int N, int ID, int M, int* E, int nEvents);
