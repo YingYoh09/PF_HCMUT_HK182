@@ -11,40 +11,6 @@
 
 const int Artagnan = 999, Athos = 900, Porthos = 888, Aramis = 777;
 
-class heroes
-{
-public:
-	int R,Money;
-	int maxHP, HP, diamond;
-	bool WonGWS,porthosHasCuli,trickedbyJeannie;
-
-public:
-	heroes() : diamond(0), WonGWS(0), porthosHasCuli(0), trickedbyJeannie(0){};
-	~heroes(){};
-	void init(int M, int ID,int R){
-		this -> Money = M;
-		this->maxHP = getmaxHPfromID(ID);
-		this->HP = maxHP;
-		this->R = R;
-	}
-	int getmaxHPfromID(int ID) const;
-	void Ending(int i);
-	bool isPrimeNumber(int a);
-	int lostHP(int Ei);
-
-	void hostel();
-	void meetGuard(int i, int Ei);
-	void meetMerchant(int i, int Ei);
-	void meetGWS(int i, int Ei);
-	void meetTitan(int i, int Ei);
-	void meetMilady();
-	int findFibonacci();
-	void meetJeanne(int i, int Ei);
-	void meetLancelot(int i, int Ei);
-	bool isFibonacci(int a);
-
-};
-
 void advanture(int R, int N, int ID, int M, int* E, int nEvents) {
 	//init
 	heroes hero;
