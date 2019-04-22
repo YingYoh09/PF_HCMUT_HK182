@@ -14,7 +14,37 @@ using namespace std;
 // Begin implementation
 //---------------------------------------------------------
 
-/* Write the code to calculate and print to screen */
+/* Định nghĩa: Khoảng cách Hamming giữa hai chuỗi S1 và S2 (có độ dài 
+
+
+bằng nhau) là số lần thay thế ký tự tối thiểu để chuyển đổi một chuỗi 
+
+
+thành chuỗi khác.
+
+
+
+Hiện thực hàm int hamming(char* str1, char* str2) để tính khoảng cách Hamming của hai chuỗi?
+
+
+
+Input: Hai chuỗi S1, S2
+
+
+
+testcase:
+
+
+A C C G A C T A C T A G
+
+
+A C C C A C T A C A A G
+
+
+expect:
+
+
+2 */
 void hamming(char *str1, char *str2)
 {
     int length = strlen(str1);
@@ -25,32 +55,6 @@ void hamming(char *str1, char *str2)
     cout << res;
 }
 
-bool codeCheck()
-{
-    const char *forbiddenKeyword[] = {"string", "include"};
-    fstream ifs;
-    ifs.open("main.cpp", ios::in);
-    if (ifs.fail())
-        ifs.open(FILENAME, ios::in);
-    if (ifs.fail())
-        return true;
-    ifs.seekg(0, ifs.end);
-    int fileSize = ifs.tellg();
-    ifs.seekg(0, ifs.beg);
-    char *fileContent = new char[fileSize];
-    ifs.read(fileContent, fileSize);
-    ifs.close();
-    *strstr(fileContent, "bool codeCheck() {") = '\0';
-    char *todoSegment = strstr(fileContent, "// Begin implementation");
-    int numberOfForbiddenKeyword = sizeof(forbiddenKeyword) / sizeof(const char *);
-    for (int i = 0; i < numberOfForbiddenKeyword; i++)
-    {
-        if (strstr(todoSegment, forbiddenKeyword[i]))
-            return false;
-    }
-    delete[] fileContent;
-    return true;
-}
 
 int main(int argc, char *argv[])
 {

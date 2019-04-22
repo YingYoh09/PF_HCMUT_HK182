@@ -24,7 +24,21 @@ using namespace std;
 // Begin implementation
 //---------------------------------------------------------
 
-/* Write the code to print out the processed text*/
+/* Viết chương trình xử lý chuỗi với các yêu cầu sau:
+- Ký tự in hoa: chuyển về in thường
+- Ký tự in thường: giữ nguyên
+- Dấu chấm câu: chuyển thành cấu cách
+- Mọi ký tự khác: bỏ qua
+
+
+Ví dụ:
+
+
+testcase: "t6H0I9s6.iS.999a9.STRING"
+expect: "this is a string"
+
+
+*/
 void process(char *text)
 {
     int length = 0;
@@ -48,32 +62,6 @@ void process(char *text)
     }
 }
 
-bool codeCheck()
-{
-    const char *forbiddenKeyword[] = {"string", "include"};
-    fstream ifs;
-    ifs.open("main.cpp", ios::in);
-    if (ifs.fail())
-        ifs.open(FILENAME, ios::in);
-    if (ifs.fail())
-        return true;
-    ifs.seekg(0, ifs.end);
-    int fileSize = ifs.tellg();
-    ifs.seekg(0, ifs.beg);
-    char *fileContent = new char[fileSize];
-    ifs.read(fileContent, fileSize);
-    ifs.close();
-    *strstr(fileContent, "bool codeCheck() {") = '\0';
-    char *todoSegment = strstr(fileContent, "// Begin implementation");
-    int numberOfForbiddenKeyword = sizeof(forbiddenKeyword) / sizeof(const char *);
-    for (int i = 0; i < numberOfForbiddenKeyword; i++)
-    {
-        if (strstr(todoSegment, forbiddenKeyword[i]))
-            return false;
-    }
-    delete[] fileContent;
-    return true;
-}
 
 int main(int argc, char *argv[])
 {

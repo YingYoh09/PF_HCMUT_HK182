@@ -14,7 +14,6 @@
 #include <iomanip>
 #include <math.h>
 #include <cctype>
-#define FILENAME "05005_sol.cpp"
 using namespace std;
 
 /* Please note that your code MUST NOT contain any word in 
@@ -24,7 +23,21 @@ even in the comments */
 // Begin implementation
 //----------------------------------------------------------------
 /// Student may define some more functions as need.
-/* Write the function returning integer value */
+/* Hiện thực int countPatent(char* text, char* patent) tìm và trả về số lần xuất hiện của một chuỗi patent trong một đoạn văn bản text.
+
+
+
+Example:
+
+
+patent: xtpxtd
+
+
+text: xluxtpxtdqwtdxtpxtsyxtpxtdy
+
+
+
+Output: 2 */
 
 bool isInText(int plength, char *pattern,char *text, int location)
 {
@@ -47,33 +60,6 @@ int count(char *pattern, char *text)
             res++;
     }
     return res;
-}
-
-bool codeCheck()
-{
-    const char *forbiddenKeyword[] = {"string", "strstr", "strpbrk", "strchr", "memchr", "include"};
-    fstream ifs;
-    ifs.open("main.cpp", ios::in);
-    if (ifs.fail())
-        ifs.open(FILENAME, ios::in);
-    if (ifs.fail())
-        return true;
-    ifs.seekg(0, ifs.end);
-    int fileSize = ifs.tellg();
-    ifs.seekg(0, ifs.beg);
-    char *fileContent = new char[fileSize];
-    ifs.read(fileContent, fileSize);
-    ifs.close();
-    *strstr(fileContent, "bool codeCheck() {") = '\0';
-    char *todoSegment = strstr(fileContent, "// Begin implementation");
-    int numberOfForbiddenKeyword = sizeof(forbiddenKeyword) / sizeof(const char *);
-    for (int i = 0; i < numberOfForbiddenKeyword; i++)
-    {
-        if (strstr(todoSegment, forbiddenKeyword[i]))
-            return false;
-    }
-    delete[] fileContent;
-    return true;
 }
 
 int main(int argc, char *argv[])

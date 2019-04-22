@@ -25,8 +25,19 @@ using namespace std;
 //----------------------------------------------
 
 /// Students may define some functions as need
-/* Write the code to process the text and then print to screen */
-
+/* Viết chương trình chuẩn hóa văn bản
+void processText(char* text, char** priText)
+Các ký tự viết hoa sai chỗ được chỉnh lại, sau các dấu chấm câu cần viết hoa (gồm dấu chấm, dấu hai chấm, chấm hỏi, chấn than), các từ tên riêng viết hoa theo quy định.
+Input: Một chuỗi, tập từ tên riêng.
+Ví dụ:
+testcase:
+CHOE RyOng-hAE la pHU ta cua KiM JOng-un tU kHi Ong Kim cHUA Len NAm qUyEn vA dUoC nhan XeT lA NgUOi rat tu tin.
+Choe Ryong-hae
+Kim Jong-un
+ong Kim
+expect:
+Choe Ryong-hae la phu ta cua Kim Jong-un tu khi ong Kim chua len nam quyen va duoc nhan xet la nguoi rat tu tin.
+Trong đó, dòng đầu của testcase là đoạn văn bản, các dòng tiếp theo trong testcase mỗi dòng là một tên riêng */
 
 bool isInText(int plength, char *pattern,char *text, int location)
 {

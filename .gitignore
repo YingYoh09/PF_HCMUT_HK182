@@ -5,3 +5,7 @@ a.exe
 #file test
 *.test
 test.cpp
+temp/
+
+#file input
+inp.txt
