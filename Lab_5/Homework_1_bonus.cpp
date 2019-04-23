@@ -39,74 +39,67 @@ expect:
 Choe Ryong-hae la phu ta cua Kim Jong-un tu khi ong Kim chua len nam quyen va duoc nhan xet la nguoi rat tu tin.
 Trong đó, dòng đầu của testcase là đoạn văn bản, các dòng tiếp theo trong testcase mỗi dòng là một tên riêng */
 
-bool isInText(int plength, char *pattern,char *text, int location)
-{
-    for (int i = location; i < location + plength; i++)
+bool isInText(char *text, char *thuong, int loc){
+    for (int i = loc; i < loc + strlen(thuong); i++)
     {
-        if (pattern[i-location] != text[i])
+        if (text[i] != thuong[i-loc])
             return 0;
     }
     return 1;
 }
 
-
 void process(char *text, char **priText, int numberOfPriText)
 {
-    int length = strlen(text);
-    char *res = new char[length];
-    int reslength = 0;
-    for (int i = 0; i < length; i++)
+
+    for (int i = 0; i < strlen(text); i++)
     {
-        int z = text[i];
-        if (z >= int('A') && z <= int('Z'))
-        {
-            text[i] = char(text[i] + int('a') - int('A'));
-        }
-        else
-            text[i] = text[i];
+        if (text[i] >= 'A' && text[i]<= 'Z')
+            text[i] = char(text[i] + 32);
     }
-    char **thuong = new char *[numberOfPriText];
+
+    char **thuong = new char*[numberOfPriText];
     for (int i = 0; i < numberOfPriText; i++)
     {
-        thuong[i] = new char[strlen(priText[i]) + 1];
-        strcpy(thuong[i], priText[i]);  
-        for (int j = 0; j < strlen(thuong[i]); j++)
-        {
-            int z = priText[i][j];
-            if (z >= int('A') && z <= int('Z'))
+        thuong[i] = new char[strlen(priText[i])];
+        for (int j = 0; j < strlen(priText[i]);j++){
+            switch (priText[i][j])
             {
-                thuong[i][j] = char(priText[i][j] + int('a') - int('A'));
-            }
-            else
+            case 'A'...'Z':
+                thuong[i][j] = char (priText[i][j] + 32);
+                break;
+            default:
                 thuong[i][j] = priText[i][j];
+                break;
+            }
         }
+        thuong[i][strlen(priText[i])] = NULL;
     }
-    for (int k = 0; k < numberOfPriText; k++){
-        for (int i = 0; i < length; i++)
+    for (int i = 0; i < numberOfPriText;i++){
+        for (int j = 0; j < strlen(text) - strlen(thuong[i]); j++)
         {
-            if (isInText(strlen(thuong[k]), thuong[k], text, i))
-            {
-                for (int j = i; j < i + strlen(thuong[k]); j++)
+            if (isInText(text,thuong[i],j)){
+                int point = j;
+                for (j;j < point + strlen(thuong[i]);j++)
                 {
-                    text[j] = priText[k][j - i];
+                    text[j] = priText[i][j - point];
                 }
+                
             }
         }
     }
-    for (int i = 0; i < length - 1; i++)
+    for (int i = 0; i < strlen(text) - 1; i++)
     {
         switch (text[i])
         {
-        case '!':
-        case '?':
-        case ':':
-        case '.':
-            if (int(text[i + 1]) >= int('a') && int(text[i + 1]) <= int('z'))
-            {
-                text[i+1] = char(int(text[i+1]) + int('A') - int('a'));
-            }
-            break;
-
+            case ':':
+            case '.':
+            case '?':
+            case '!':
+                if (text[i+1] <= 'z' && text[i+1] >= 'a')
+                    text[i + 1] = char(text[i + 1] - 32);
+                break;
+            default:            
+                break;
         }
     }
     cout << text;
