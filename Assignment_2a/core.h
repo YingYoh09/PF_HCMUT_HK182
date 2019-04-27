@@ -28,7 +28,13 @@ void PrintOutput(const char* pRequest, void* pData, void* &pOutput, int);
 
 struct Record {
     // TODO: Please define the detail struct for storing a record here
-};
+    public:
+        int pregnancies, glucose, bloodPressure, skinThickness;
+        int insulin, BMI, diabetesPedigreeFunction, age, outcome;
+    public:
+        //pregnancies, glucose, bloodPressure, skinThickness,insulin, BMI, diabetesPedigreeFunction, age, outcome
+        Record(int a1; int a2; int a3; int a4; int a5; int a) {}
+} record;
 
 struct RecManager {
     // TODO: Please define the detail of this struct so that you can manage

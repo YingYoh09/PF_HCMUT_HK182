@@ -33,6 +33,7 @@ void LoadData(const char* pFName, void* &pData) {
     //       is given in pFName. The data that you load into is pointed to
     //       by the pointer pData. You should make decision on what data
     //       type will be used to store records.
+    
 }
 
 void ReleaseData(void* &pData) {
