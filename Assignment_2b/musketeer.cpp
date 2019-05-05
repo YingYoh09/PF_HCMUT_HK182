@@ -236,6 +236,7 @@ void heroes::meetJeanne(int i, int Ei){
 	{
 		Q--;
 	}
+	if (Q == 0) Q = 1;
 	if (Aramis == maxHP && 0 < diamond && Money >= Q)
 	{
 		diamond--;

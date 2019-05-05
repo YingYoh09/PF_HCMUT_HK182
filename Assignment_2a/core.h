@@ -20,26 +20,47 @@
 void Initialization();
 void Finalization();
 
-void LoadData(const char*, void* &);
-void ReleaseData(void* &);
+void LoadData(const char *, void *&);
+void ReleaseData(void *&);
 
-void ProcessRequest(const char* pRequest, void* pData, void* &pOutput, int &);
-void PrintOutput(const char* pRequest, void* pData, void* &pOutput, int);
+void ProcessRequest(const char *pRequest, void *pData, void *&pOutput, int &);
+void PrintOutput(const char *pRequest, void *pData, void *&pOutput, int);
 
-struct Record {
-    // TODO: Please define the detail struct for storing a record here
-    public:
-        int pregnancies, glucose, bloodPressure, skinThickness;
-        int insulin, BMI, diabetesPedigreeFunction, age, outcome;
-    public:
-        //pregnancies, glucose, bloodPressure, skinThickness,insulin, BMI, diabetesPedigreeFunction, age, outcome
-        Record(int a1; int a2; int a3; int a4; int a5; int a) {}
-} record;
+struct Record
+{
+public:
+    double a[9];
 
-struct RecManager {
+public:
+    //pregnancies, glucose, bloodPressure, skinThickness,insulin, BMI, diabetesPedigreeFunction, age, outcome
+    void readData(double a1, double a2, double a3, double a4, double a5, double a6, double a7, double a8, double a9)
+    {
+        a[0] = a1;
+        a[1] = a2;
+        a[2] = a3;
+        a[3] = a4;
+        a[4] = a5;
+        a[5] = a6;
+        a[6] = a7;
+        a[7] = a8;
+        a[8] = a9;
+    }
+    Record() {}
+};
+
+struct RecManager
+{
     // TODO: Please define the detail of this struct so that you can manage
     //       the records that you loaded from given the file. If you don't need
     //       such a struct, you can ignore or delete this one.
+    int pregnancies, glucose, bloodPressure, skinThickness;
+    int insulin, BMI, diabetesPedigreeFunction, age, outcome;
 };
 
+//get request trong chuỗi bắt đầu từ i
+std::string getReq(const char *, int &i);
+int getID(std::string);
+void deleteSpace(std::string &);
+void Request_DI(Record *, int *&, int &, std::string, int);
+void Request_HI(Record *arr, int *&pInt, int &N, int col, int miN, int maX, int step);
 #endif //A02_CORE_H

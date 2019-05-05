@@ -21,21 +21,21 @@ int main() {
     int     N;
 
     LoadData("diabetes.csv", pData);
-
+    ifstream user("console.txt", ios::in);
     string req;
     while (true) {
         req = "";
-        getline(cin, req);
-        if (cin.bad()) {
-            cin.clear();
-            cin.ignore(1024, '\n');
+        getline(user, req);
+        if (user.bad()) {
+            user.clear();
+            user.ignore(1024, '\n');
             continue;
         }
         if (req == "Exit") break;
         ProcessRequest(req.data(), pData, pOutput, N);
         PrintOutput(req.data(), pData, pOutput, N);
     }
-
+    user.close();
     ReleaseData(pData);
 
     Finalization();
