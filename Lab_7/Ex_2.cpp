@@ -28,26 +28,31 @@ public:
 	}
 	//so sánh bé hơn
 	friend bool operator<(const Integer &a1, const Integer &a2);
-	friend Integer& operator+(const Integer &a1, const Integer &a2);
+	friend Integer operator + (Integer const &a1, int i);
 	operator int(){
 		return value;
 	}
 	Integer& operator [](Integer &a);
+	Integer &operator=(Integer const &a1);
 };
+Integer& Integer::operator=(Integer const &a1){
+	value = a1.value;
+}
 
 Integer& Integer::operator [](Integer &a){
 	int i = int(a);
-	Integer *pI;
-	pI = &a;
-	return pI[i];
+	Integer *p;
+	p = &a;
+	return p[i];
 }
 
 bool operator<(const Integer &a1, const Integer &a2)
 {
 	return a1.value < a2.value;
 }
-Integer &operator+(const Integer &a1, int){
-	
+Integer operator+(Integer const &a1, int i)
+{
+	return Integer(a1.value + i);
 }
 /**
  * Student implement Integer's methods here

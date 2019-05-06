@@ -40,12 +40,16 @@ CaesarMessage::CaesarMessage()
 /* The copy constructor */
 CaesarMessage::CaesarMessage(CaesarMessage &obj)
 {
-    textBuffer = new char[strlen(obj.textBuffer)];
-    for (int i = 0; i < strlen(obj.textBuffer); i++)
+    int j;
+    for (j = 0; obj.textBuffer[j] != '\0'; j++)
+    {
+    }
+    
+    textBuffer = new char[j];
+    for (int i = 0; i < j; i++)
     {
         textBuffer[i] = obj.textBuffer[i];
     }
-    
 }
 
 /* The destructor */
@@ -63,6 +67,7 @@ void CaesarMessage::encode(const char *_message, int _shift)
 {
     /* Guide: Lower case all the characters and then do the shifting.
 	Just encode the alphabet, ignore any others */
+    _shift = abs(_shift) % 26 * (_shift < 0?-1:1) ;
     int i;
     for (i = 0; i < strlen(_message); i++)
     {
@@ -75,7 +80,7 @@ void CaesarMessage::encode(const char *_message, int _shift)
     for (int i = 0; i < strlen(_message);i++)
     {
         if (tolower(_message[i]) >= 'a' && tolower(_message[i]) <= 'z'){
-            textBuffer[num++] = (tolower(_message[i]) + _shift - 'a') % 26 + 'a';
+            textBuffer[num++] = abs(tolower(_message[i]) + _shift - 'a') % 26 + 'a';
         }
     }
 }
@@ -84,17 +89,19 @@ void CaesarMessage::encode(const char *_message, int _shift)
 void CaesarMessage::decode(int _shiftKey, char *&_textContainer)
 {
     _textContainer = new char[strlen(textBuffer)];
+    _shiftKey = abs(_shiftKey) % 26 * (_shiftKey < 0 ? -1 : 1);
     int i = 0;
     for (i = 0; i < strlen(textBuffer) && (textBuffer[i]<= 'z' && textBuffer[i]>='a'); i++)
     {
         if ((textBuffer[i] - _shiftKey - 'a')>= 0) {
-            _textContainer[i] = (textBuffer[i] - _shiftKey - 'a') % 26 + 'a';
+            _textContainer[i] = (textBuffer[i] - _shiftKey - 'a') + 'a';
         }
         else {
-            _textContainer[i] = (textBuffer[i] - _shiftKey - 'a') + 'z'+1;
+            _textContainer[i] = (textBuffer[i] - _shiftKey - 'a') + 'z' + 1;
         }
     }
     _textContainer[i] = '\0';
+    textBuffer[i] = '\0';
 }
 
 /* Notice this function */

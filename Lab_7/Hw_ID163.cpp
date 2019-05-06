@@ -27,27 +27,32 @@ public:
 
 Integer::Integer(double d)
 {
-    value = trunc(d);
+    value = d;
 }
 
 char *Integer::toString(char *&c)
 {
+    if (value == 0){
+        c = new char[2];
+        c[0] = '0';
+        c[1] = '\0';
+        return c;
+    }
     int scs = 0, i = value;
-    for (scs; i > 0; scs++)
+    for (scs; i != 0; scs++)
     {
         i = i / 10;
     }
-    c = new char[scs + 1];
-    for (i = 0; i < scs; i++)
+    c = new char[scs + 3];
+    if (value < 0)
     {
-        c[i] = value % 10 + 48;
-        value = value / 10;
+        scs++;
+        c[0] = '-';
     }
-    for (i = 0; i < scs / 2; i++)
+    for (i = scs - 1; value != 0; i--)
     {
-        c[scs] = c[i];
-        c[i] = c[scs - i - 1];
-        c[scs - i - 1] = c[scs];
+        c[i] = abs(value % 10) + 48;
+        value = value / 10;
     }
     c[scs] = '\0';
 }
