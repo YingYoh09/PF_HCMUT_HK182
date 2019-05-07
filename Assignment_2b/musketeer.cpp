@@ -205,10 +205,13 @@ void heroes::meetTitan(int i, int Ei){
 }
 //-----------------Milady-----------------
 int heroes::findFibonacci(){
-	int fibo[3]{1,1,2};
+	int fibo[3];
+	fibo[0] = 1;fibo[1]=1;
+	fibo[2] = 2;
 	int i = 3;
 	while (fibo[(i - 1) % 3] < HP){
-		fibo[(++i - 1) % 3] = fibo[(i - 2) % 3] + fibo[(i - 3) % 3];
+		i++;
+		fibo[(i - 1) % 3] = fibo[(i - 2) % 3] + fibo[(i - 3) % 3];
 	}
 	return fibo[(i - 2) % 3];
 }
@@ -270,11 +273,13 @@ void heroes::meetLancelot(int i, int Ei){
 	}
 }
 bool heroes::isFibonacci(int a){
-	int fibo[3]{1, 1, 2};
+	int fibo[3];
+	fibo[0] = 1;fibo[1] = 1; fibo[2]=2;
 	int i = 3;
 	while (fibo[(i - 1) % 3] <= a)
 	{
-		fibo[(++i - 1) % 3] = fibo[(i - 2) % 3] + fibo[(i - 3) % 3];
+		i++;
+		fibo[(i - 1) % 3] = fibo[(i - 2) % 3] + fibo[(i - 3) % 3];
 	}
 	return (fibo[(i - 2) % 3] == a);
 }

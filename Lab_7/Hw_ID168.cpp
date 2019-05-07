@@ -1,3 +1,4 @@
+
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -6,15 +7,9 @@
 #include <math.h>
 #include <cctype>
 #define FILENAME "07004_sol.cpp"
-using namespace std;
-//----------------------------------------------
-// Begin implementation
-//----------------------------------------------
+    using namespace std;
+//------------------------------
 
-//---------------------------------------------------------------------------
-/**
-* CaesarMessage class definition
-*/
 class CaesarMessage
 {
     char *textBuffer;
@@ -27,112 +22,100 @@ public:
     void decode(int _shiftKey, char *&_textContainer);
 };
 
-/**
-* CaesarMessage class implementation
-*/
-
-/* The default constructor */
 CaesarMessage::CaesarMessage()
 {
-
 }
 
-/* The copy constructor */
 CaesarMessage::CaesarMessage(CaesarMessage &obj)
 {
-    int j;
-    for (j = 0; obj.textBuffer[j] != '\0'; j++)
-    {
-    }
-    
-    textBuffer = new char[j];
-    for (int i = 0; i < j; i++)
-    {
-        textBuffer[i] = obj.textBuffer[i];
-    }
+    textBuffer = new char[strlen(obj.textBuffer) + 1];
+    strcpy(textBuffer, obj.textBuffer);
 }
 
-/* The destructor */
 CaesarMessage::~CaesarMessage()
 {
-    /* You have to tidy the dynamic memory, right?
-	But, wait! What will happen if the textBuffer has been deleted already?
-	Can that problem happen? When, why? And what is the solution? */
     delete[] this->textBuffer;
     this->textBuffer = NULL;
 }
 
-/* Encode the input message and then store the result in the textBuffer */
 void CaesarMessage::encode(const char *_message, int _shift)
 {
-    /* Guide: Lower case all the characters and then do the shifting.
-	Just encode the alphabet, ignore any others */
-    _shift = abs(_shift) % 26 * (_shift < 0?-1:1) ;
-    int i;
-    for (i = 0; i < strlen(_message); i++)
+    int length = strlen(_message);
+    char *fixedMessage = new char[strlen(_message)];
+    char *textBuffed = new char[strlen(_message)];
+    for (int i = 0; i < length; i++)
     {
-        if (tolower(_message[i]) >= 'a' && tolower(_message[i]) <= 'z')
-            i++;
+        if ((int)'A' <= _message[i] && (int)'Z' >= _message[i])
+            fixedMessage[i] = _message[i] + 32;
+        else
+            fixedMessage[i] = _message[i];
     }
-    
-    textBuffer = new char[i];
-    int num = 0;
-    for (int i = 0; i < strlen(_message);i++)
+    int index = 0;
+    for (int i = 0; i < length; i++)
     {
-        if (tolower(_message[i]) >= 'a' && tolower(_message[i]) <= 'z'){
-            textBuffer[num++] = abs(tolower(_message[i]) + _shift - 'a') % 26 + 'a';
+        if (fixedMessage[i] >= (int)'a' && fixedMessage[i] <= (int)'z')
+        {
+            textBuffed[index] = fixedMessage[i];
+            index++;
         }
     }
+    for (int i = 0; i < index; i++)
+    {
+        int num = (int)textBuffed[i] + _shift;
+        if (num > 122)
+            textBuffed[i] = 96 + (num - 122);
+        else
+            textBuffed[i] = num;
+    }
+    textBuffer = new char[strlen(textBuffed)];
+    strcpy(textBuffer, textBuffed);
+    delete[] textBuffed;
+    textBuffed = NULL;
+    delete[] fixedMessage;
+    fixedMessage = NULL;
 }
 
-/* Decode the textBuffer content and then store the result in the textContainer */
 void CaesarMessage::decode(int _shiftKey, char *&_textContainer)
 {
-    _textContainer = new char[strlen(textBuffer)];
-    _shiftKey = abs(_shiftKey) % 26 * (_shiftKey < 0 ? -1 : 1);
-    int i = 0;
-    for (i = 0; i < strlen(textBuffer) && (textBuffer[i]<= 'z' && textBuffer[i]>='a'); i++)
+    _textContainer = new char[strlen(textBuffer) + 1];
+    for (int i = 0; i < strlen(textBuffer); i++)
     {
-        if ((textBuffer[i] - _shiftKey - 'a')>= 0) {
-            _textContainer[i] = (textBuffer[i] - _shiftKey - 'a') + 'a';
-        }
-        else {
-            _textContainer[i] = (textBuffer[i] - _shiftKey - 'a') + 'z' + 1;
-        }
+        int num = (int)textBuffer[i] - _shiftKey;
+        if (num < 97)
+            _textContainer[i] = 122 - (96 - num);
+        else
+            _textContainer[i] = num;
     }
-    _textContainer[i] = '\0';
-    textBuffer[i] = '\0';
 }
 
-/* Notice this function */
 void process(CaesarMessage msg, int shiftKey, char *&container)
 {
     msg.decode(shiftKey, container);
 }
+
 int main(int argc, char *argv[])
 {
-    ifstream fileIn("inp.txt",ios::in);
-        int shift;
-        fileIn >> shift;
-        string line;
-        string inputString;
-        while (!fileIn.eof())
-        {
-            getline(fileIn, line);
-            inputString += line;
-        }
-        char *plainText = new char[strlen(inputString.c_str()) + 1];
-        strcpy(plainText, inputString.c_str());
-        char *decodedText;
-        {
-            CaesarMessage msg;
-            msg.encode(plainText, shift);
-            process(msg, shift, decodedText);
-        }
-        cout << decodedText;
-        delete[] decodedText;
-        delete[] plainText;
-        fileIn.close();
-        system("pause");
-        return 0;
+    int shift;
+    cin >> shift;
+    string line;
+    string inputString;
+    while (!cin.eof())
+    {
+        getline(cin, line);
+        inputString += line;
+    }
+    char *plainText = new char[strlen(inputString.c_str()) + 1];
+    strcpy(plainText, inputString.c_str());
+    char *decodedText;
+    {
+        CaesarMessage msg;
+        msg.encode(plainText, shift);
+        process(msg, shift, decodedText);
+    }
+    cout << decodedText;
+    delete[] decodedText;
+    delete[] plainText;
+    // Endsection: read testcase
+    //------------------------------------
+    return 0;
 }
