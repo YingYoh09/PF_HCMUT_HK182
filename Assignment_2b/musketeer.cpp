@@ -66,7 +66,7 @@ int heroes::getmaxHPfromID(int ID) const{
 		return Aramis;
 	}
 }
-
+//enough diamond (1), HP xuong <=0 (2), not enough diamond(3) 
 void heroes::Ending(int i){
 	switch (i)
 	{
@@ -80,7 +80,6 @@ void heroes::Ending(int i){
 		cout << 0;
 		break;
 	}
-	system("pause");
 	exit(0);
 }
 
@@ -107,14 +106,13 @@ void heroes::hostel(){
 	{
 		if (R >= 3 && Money > 2){
 			int P = R - 1;
-			while (P > 1 && !isPrimeNumber(P))
+			while (P > 1 && !(isPrimeNumber(P)))
 				P--;
 			while (R >= 3 && Money > 2 && Money >= P && HP < maxHP){
 				HP++;
 				Money -= P;
 			}
 		}
-		
 		return;
 	}
 
@@ -189,8 +187,11 @@ void heroes::meetGWS(int i, int Ei){
 void heroes::meetTitan(int i, int Ei){
 	int h1 = i % (100 + R);
 	int h2 = Ei % (100 + R);
+	if (Porthos == maxHP) {
+		porthosHasCuli = 1;
+		return;
+	}
 	if (h1 >= h2){
-		if (Porthos == maxHP) porthosHasCuli = 1; 
 	}
 	else
 	{
@@ -199,15 +200,14 @@ void heroes::meetTitan(int i, int Ei){
 			return;
 		}
 		HP -= lostHP(Ei);
-		if (HP <= 0)
-			Ending(2);
+		if (HP <= 0)  Ending(2);
 	}
 }
 //-----------------Milady-----------------
+//tìm số fibonacci max < HP
 int heroes::findFibonacci(){
 	int fibo[3];
-	fibo[0] = 1;fibo[1]=1;
-	fibo[2] = 2;
+	fibo[0] = 1;fibo[1] = 1;fibo[2] = 2;
 	int i = 3;
 	while (fibo[(i - 1) % 3] < HP){
 		i++;
@@ -224,7 +224,7 @@ void heroes::meetMilady(){
 			break;
 		case Aramis:
 		case Porthos:
-			if (2 < HP) {
+			if (HP > 2) {
 				HP = findFibonacci();
 			}
 			break;
@@ -234,13 +234,17 @@ void heroes::meetMilady(){
 void heroes::meetJeanne(int i, int Ei){
 	if (trickedbyJeannie) return;
 	trickedbyJeannie = 1;
-	int Q = R % 100;
-	while (!isPrimeNumber(Q) && (R % 100) % Q != 0)
+	if (Aramis != maxHP) {
+		diamond = (diamond > 0) ? (diamond - 1) : 0;
+		return;
+	}
+	int Q = R - 1;
+	while (!(isPrimeNumber(Q)) && (R % Q) != 0 && Q > 1)
 	{
 		Q--;
 	}
-	if (Q == 0) Q = 1;
-	if (Aramis == maxHP && 0 < diamond && Money >= Q)
+	if (0 == Q) Q = 1;
+	if (0 < diamond && Money >= Q)
 	{
 		diamond--;
 		int h1 = i % (100 + R);
@@ -252,7 +256,6 @@ void heroes::meetJeanne(int i, int Ei){
 		else {
 			Money -= Q;
 		}
-		return;
 	}
 	else diamond = (diamond > 0) ? (diamond - 1) : 0;
 }
@@ -269,7 +272,7 @@ void heroes::meetLancelot(int i, int Ei){
 	}
 	else
 	{
-			Ending(2);
+		Ending(2);
 	}
 }
 bool heroes::isFibonacci(int a){
