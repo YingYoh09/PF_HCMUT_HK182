@@ -68,18 +68,20 @@ int heroes::getmaxHPfromID(int ID) const{
 }
 //enough diamond (1), HP xuong <=0 (2), not enough diamond(3) 
 void heroes::Ending(int i){
+	ofstream chuan("chuan.txt", ios::out);
 	switch (i)
 	{
 	case 1:
-		cout << HP + Money;
+		chuan << HP + Money;
 		break;
 	case 2:
-		cout << -1;
+		chuan << -1;
 		break;
 	case 3:
-		cout << 0;
+		chuan << 0;
 		break;
 	}
+	chuan.close();
 	exit(0);
 }
 

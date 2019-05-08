@@ -1,7 +1,7 @@
 #include "musketeer.h"
 
 int main(int argc, char** argv) {
-    string filename = "input.txt";
+    string filename = "inp.txt";
         int R, N, ID, M;
         int* E;
 
