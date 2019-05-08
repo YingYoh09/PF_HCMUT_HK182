@@ -1,4 +1,3 @@
-
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -8,8 +7,14 @@
 #include <cctype>
 #define FILENAME "07004_sol.cpp"
     using namespace std;
-//------------------------------
+//----------------------------------------------
+// Begin implementation
+//----------------------------------------------
 
+//---------------------------------------------------------------------------
+/**
+* CaesarMessage class definition
+*/
 class CaesarMessage
 {
     char *textBuffer;
@@ -22,86 +27,101 @@ public:
     void decode(int _shiftKey, char *&_textContainer);
 };
 
+/**
+* CaesarMessage class implementation
+*/
+
+/* The default constructor */
 CaesarMessage::CaesarMessage()
 {
 }
 
+/* The copy constructor */
 CaesarMessage::CaesarMessage(CaesarMessage &obj)
 {
     textBuffer = new char[strlen(obj.textBuffer) + 1];
     strcpy(textBuffer, obj.textBuffer);
 }
 
+/* The destructor */
 CaesarMessage::~CaesarMessage()
 {
+    /* You have to tidy the dynamic memory, right?
+	But, wait! What will happen if the textBuffer has been deleted already?
+	Can that problem happen? When, why? And what is the solution? */
     delete[] this->textBuffer;
     this->textBuffer = NULL;
 }
 
+/* Encode the input message and then store the result in the textBuffer */
 void CaesarMessage::encode(const char *_message, int _shift)
 {
-    int length = strlen(_message);
-    char *fixedMessage = new char[strlen(_message)];
-    char *textBuffed = new char[strlen(_message)];
-    for (int i = 0; i < length; i++)
+    char *textBuf = new char[strlen(_message)];
+    int num = 0;
+    for (int i = 0; i < strlen(_message); i++)
     {
-        if ((int)'A' <= _message[i] && (int)'Z' >= _message[i])
-            fixedMessage[i] = _message[i] + 32;
-        else
-            fixedMessage[i] = _message[i];
-    }
-    int index = 0;
-    for (int i = 0; i < length; i++)
-    {
-        if (fixedMessage[i] >= (int)'a' && fixedMessage[i] <= (int)'z')
+        if (_message[i] >= 'A' && _message[i] <= 'Z')
         {
-            textBuffed[index] = fixedMessage[i];
-            index++;
+            textBuf[num++] = _message[i] + 32;
+        }
+        if (_message[i] >= 'a' && _message[i] <= 'z')
+        {
+            textBuf[num++] = _message[i];
         }
     }
-    for (int i = 0; i < index; i++)
+
+    char *temp = new char[strlen(_message)];
+    for (int i = 0; i < num; i++)
     {
-        int num = (int)textBuffed[i] + _shift;
-        if (num > 122)
-            textBuffed[i] = 96 + (num - 122);
+        if ((textBuf[i] + _shift) > (int)'z')
+        {
+            temp[i] = (int)textBuf[i] + _shift - 'z' + 'a' - 1;
+        }
         else
-            textBuffed[i] = num;
+        {
+            temp[i] = int(textBuf[i]) + _shift;
+        }
     }
-    textBuffer = new char[strlen(textBuffed)];
-    strcpy(textBuffer, textBuffed);
-    delete[] textBuffed;
-    textBuffed = NULL;
-    delete[] fixedMessage;
-    fixedMessage = NULL;
+    temp[num] = '\0';
+    textBuffer = temp;
+    delete[] textBuf;
+    textBuf = NULL;
 }
 
+/* Decode the textBuffer content and then store the result in the textContainer */
 void CaesarMessage::decode(int _shiftKey, char *&_textContainer)
 {
-    _textContainer = new char[strlen(textBuffer) + 1];
+    char* _textCon = new char[strlen(textBuffer) + 1];
     for (int i = 0; i < strlen(textBuffer); i++)
     {
-        int num = (int)textBuffer[i] - _shiftKey;
-        if (num < 97)
-            _textContainer[i] = 122 - (96 - num);
+        if ((textBuffer[i] - _shiftKey) < (int)'a')
+        {
+            _textCon[i] = (int)textBuffer[i] - _shiftKey + 'z' - 'a' + 1;
+        }
         else
-            _textContainer[i] = num;
+        {
+            _textCon[i] = (int)textBuffer[i] - _shiftKey;
+        }
     }
+    _textCon[strlen(textBuffer)] = '\0';
+    _textContainer = _textCon;
 }
 
+/* Notice this function */
 void process(CaesarMessage msg, int shiftKey, char *&container)
 {
     msg.decode(shiftKey, container);
 }
-
 int main(int argc, char *argv[])
 {
+    ifstream fileIn("inp.txt", ios::in);
     int shift;
-    cin >> shift;
+    fileIn >> shift;
     string line;
     string inputString;
-    while (!cin.eof())
+    while (!fileIn.eof())
     {
-        getline(cin, line);
+        getline(fileIn, line);
         inputString += line;
     }
     char *plainText = new char[strlen(inputString.c_str()) + 1];
@@ -115,7 +135,7 @@ int main(int argc, char *argv[])
     cout << decodedText;
     delete[] decodedText;
     delete[] plainText;
-    // Endsection: read testcase
-    //------------------------------------
+    fileIn.close();
+  // system("pause");
     return 0;
 }
