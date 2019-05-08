@@ -60,11 +60,7 @@ public:
 size_t Integer::serialize(uint8_t *&_byteBuffer) {
     int i = value;
     int temp = value;
-    numberOfBytes = 0;
-    while (i != 0){
-        i = i >> 8;
-        numberOfBytes++;
-    }
+    numberOfBytes = 4;
     _byteBuffer = new uint8_t[numberOfBytes];
     for (i = numberOfBytes - 1; i >= 0; i--)
     {
