@@ -11,7 +11,8 @@
 
 const int Artagnan = 999, Athos = 900, Porthos = 888, Aramis = 777;
 
-void advanture(int R, int N, int ID, int M, int* E, int nEvents) {
+void advanture(int R, int N, int ID, int M, int *E, int nEvents)
+{
 	//init
 	heroes hero;
 	hero.init(M, ID, R);
@@ -48,12 +49,15 @@ void advanture(int R, int N, int ID, int M, int* E, int nEvents) {
 			hero.meetLancelot(i + 1, E[i]);
 			break;
 		}
-		if (hero.diamond == N) hero.Ending(1);
+		if (hero.diamond == N)
+			hero.Ending(1);
 	}
-	if (hero.diamond != N) hero.Ending(3);
+	if (hero.diamond != N)
+		hero.Ending(3);
 }
 
-int heroes::getmaxHPfromID(int ID) const{
+int heroes::getmaxHPfromID(int ID) const
+{
 	switch (ID)
 	{
 	case 1:
@@ -66,8 +70,9 @@ int heroes::getmaxHPfromID(int ID) const{
 		return Aramis;
 	}
 }
-//enough diamond (1), HP xuong <=0 (2), not enough diamond(3) 
-void heroes::Ending(int i){
+//enough diamond (1), HP xuong <=0 (2), not enough diamond(3)
+void heroes::Ending(int i)
+{
 	switch (i)
 	{
 	case 1:
@@ -83,7 +88,8 @@ void heroes::Ending(int i){
 	exit(0);
 }
 
-bool heroes::isPrimeNumber(int a){
+bool heroes::isPrimeNumber(int a)
+{
 	if (a < 2)
 		return 0;
 	for (int i = 2; i < a; i++)
@@ -94,21 +100,27 @@ bool heroes::isPrimeNumber(int a){
 	return 1;
 }
 
-int heroes::lostHP(int Ei){
-	if (WonGWS){
-		return round(float (Ei) / float (pow(2, R + 5)) * float (R + 10));
+int heroes::lostHP(int Ei)
+{
+	if (WonGWS)
+	{
+		return round(float(Ei) / float(pow(2, R + 5)) * float(R + 10));
 	}
-	else return Ei;
+	else
+		return Ei;
 }
 //-------------------------
-void heroes::hostel(){
+void heroes::hostel()
+{
 	if (Porthos == maxHP)
 	{
-		if (R >= 3 && Money > 2){
+		if (R >= 3 && Money > 2)
+		{
 			int P = R - 1;
 			while (P > 1 && !(isPrimeNumber(P)))
 				P--;
-			while (R >= 3 && Money > 2 && Money >= P && HP < maxHP){
+			while (Money > 2 && Money >= P && HP < maxHP)
+			{
 				HP++;
 				Money -= P;
 			}
@@ -116,20 +128,22 @@ void heroes::hostel(){
 		return;
 	}
 
-	while (HP < maxHP && Money > 0){
+	while (HP < maxHP && Money > 0)
+	{
 		HP++;
 		Money--;
 	}
 }
 
-void heroes::meetGuard(int i, int Ei){
+void heroes::meetGuard(int i, int Ei)
+{
 	int h1 = i % (100 + R);
 	int h2 = Ei % (100 + R);
 	switch (maxHP)
 	{
 	case Athos:
 		//Athos thua
-		if (h1 < h2 && h2 > Money && isPrimeNumber(h2))
+		if (h2 > Money && isPrimeNumber(h2))
 		{
 			HP -= lostHP(Ei);
 			if (HP <= 0)
@@ -137,10 +151,12 @@ void heroes::meetGuard(int i, int Ei){
 		}
 		return;
 	case Porthos:
-		if (porthosHasCuli) {
+		if (porthosHasCuli)
+		{
 			return;
 		}
-		else break;
+		else
+			break;
 	default:
 		break;
 	}
@@ -151,7 +167,8 @@ void heroes::meetGuard(int i, int Ei){
 	}
 	else
 	{
-		if (Aramis == maxHP && HP - lostHP(Ei) < 1){
+		if (Aramis == maxHP && HP - lostHP(Ei) < 1)
+		{
 			return;
 		}
 		HP -= lostHP(Ei);
@@ -160,7 +177,8 @@ void heroes::meetGuard(int i, int Ei){
 	}
 }
 
-void heroes::meetMerchant(int i, int Ei){
+void heroes::meetMerchant(int i, int Ei)
+{
 	int h1 = i % (100 + R);
 	int h2 = Ei % (100 + R);
 	if (h1 >= h2)
@@ -172,8 +190,10 @@ void heroes::meetMerchant(int i, int Ei){
 		Money /= 2;
 }
 
-void heroes::meetGWS(int i, int Ei){
-	if (WonGWS) return;
+void heroes::meetGWS(int i, int Ei)
+{
+	if (WonGWS)
+		return;
 	int h1 = i % (100 + R);
 	int h2 = Ei % (100 + R);
 	if (h1 >= h2)
@@ -184,14 +204,17 @@ void heroes::meetGWS(int i, int Ei){
 		diamond = 0;
 }
 
-void heroes::meetTitan(int i, int Ei){
+void heroes::meetTitan(int i, int Ei)
+{
 	int h1 = i % (100 + R);
 	int h2 = Ei % (100 + R);
-	if (Porthos == maxHP) {
+	if (Porthos == maxHP)
+	{
 		porthosHasCuli = 1;
 		return;
 	}
-	if (h1 >= h2){
+	if (h1 >= h2)
+	{
 	}
 	else
 	{
@@ -200,41 +223,52 @@ void heroes::meetTitan(int i, int Ei){
 			return;
 		}
 		HP -= lostHP(Ei);
-		if (HP <= 0)  Ending(2);
+		if (HP <= 0)
+			Ending(2);
 	}
 }
 //-----------------Milady-----------------
 //tìm số fibonacci max < HP
-int heroes::findFibonacci(){
+int heroes::findFibonacci()
+{
 	int fibo[3];
-	fibo[0] = 1;fibo[1] = 1;fibo[2] = 2;
+	fibo[0] = 1;
+	fibo[1] = 1;
+	fibo[2] = 2;
 	int i = 3;
-	while (fibo[(i - 1) % 3] < HP){
+	while (fibo[(i - 1) % 3] < HP)
+	{
 		i++;
 		fibo[(i - 1) % 3] = fibo[(i - 2) % 3] + fibo[(i - 3) % 3];
 	}
 	return fibo[(i - 2) % 3];
 }
-void heroes::meetMilady(){
-	switch (maxHP){
-		case Artagnan:
-			Ending(2);
-		case Athos:
-			Money = 999;
-			break;
-		case Aramis:
-		case Porthos:
-			if (HP > 2) {
-				HP = findFibonacci();
-			}
-			break;
+void heroes::meetMilady()
+{
+	switch (maxHP)
+	{
+	case Artagnan:
+		Ending(2);
+	case Athos:
+		Money = 999;
+		break;
+	case Aramis:
+	case Porthos:
+		if (HP > 2)
+		{
+			HP = findFibonacci();
 		}
+		break;
+	}
 }
 
-void heroes::meetJeanne(int i, int Ei){
-	if (trickedbyJeannie) return;
+void heroes::meetJeanne(int i, int Ei)
+{
+	if (trickedbyJeannie)
+		return;
 	trickedbyJeannie = 1;
-	if (Aramis != maxHP) {
+	if (Aramis != maxHP)
+	{
 		diamond = (diamond > 0) ? (diamond - 1) : 0;
 		return;
 	}
@@ -243,7 +277,8 @@ void heroes::meetJeanne(int i, int Ei){
 	{
 		Q--;
 	}
-	if (0 == Q) Q = 1;
+	if (0 <= Q)
+		Q = 1;
 	if (0 < diamond && Money >= Q)
 	{
 		diamond--;
@@ -253,15 +288,19 @@ void heroes::meetJeanne(int i, int Ei){
 		{
 			diamond++;
 		}
-		else {
+		else
+		{
 			Money -= Q;
 		}
 	}
-	else diamond = (diamond > 0) ? (diamond - 1) : 0;
+	else
+		diamond = (diamond > 0) ? (diamond - 1) : 0;
 }
 
-void heroes::meetLancelot(int i, int Ei){
-	if (!isFibonacci(i)) Ending(2);
+void heroes::meetLancelot(int i, int Ei)
+{
+	if (!isFibonacci(i))
+		Ending(2);
 
 	int h1 = i % (100 + R);
 	int h2 = Ei % (100 + R);
@@ -275,13 +314,14 @@ void heroes::meetLancelot(int i, int Ei){
 		Ending(2);
 	}
 }
-bool heroes::isFibonacci(int a){
+bool heroes::isFibonacci(int a)
+{
 	int fibo[46] = {1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233, 377, 610, 987, 1597, 2584, 4181, 6765, 10946, 17711, 28657, 46368, 75025, 121393, 196418, 317811, 514229, 832040, 1346269, 2178309, 3524578, 5702887, 9227465, 14930352, 24157817, 39088169, 63245986, 102334155, 165580141, 267914296, 433494437, 701408733, 1134903170, 1836311903};
 	for (int i = 0; i < 46; i++)
 	{
 		if (fibo[i] == a)
 			return 1;
 	}
-	
+
 	return 0;
 }

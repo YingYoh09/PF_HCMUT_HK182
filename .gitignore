@@ -1,5 +1,5 @@
 #file rac
-a.exe
+*.exe
 .vscode/ipch/
 
 #file test

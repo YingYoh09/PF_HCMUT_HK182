@@ -9,5 +9,6 @@ int main(int argc, char** argv) {
         
         if (nEvents >= 0)
             advanture(R, N, ID, M, E, nEvents);
+            system("pause");
     return 0;
 }
