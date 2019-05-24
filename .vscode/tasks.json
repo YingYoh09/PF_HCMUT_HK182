@@ -3,35 +3,17 @@
         {
             "type": "shell",
             "label": "g++.exe build active file",
-            "command": "C:\\mingw64\\bin\\g++.exe",
+            "command": "g++",
             "args": [
-                "-g",
-                //for single file
-                // 	
-                "${file}",
-                //for project with header
-                // 		"${fileDirname}\\*.cpp"
-                "-o",
-                //"${fileDirname}\\${fileBasenameNoExtension}.exe"
-                "${workspaceFolder}/a.exe"
-            ],
-            "options": {
-                "cwd": "C:\\mingw64\\bin"
-            },
-            "group": {
-                "kind": "build",
-                "isDefault": true
-            }
-        },
-        {
-            "type": "shell",
-            "label": "g++ build & run active file",
-            "command": "C:\\mingw64\\bin\\g++.exe",
-            "args": [
-                "${file}",
-                "-o",
-                //"${fileDirname}\\${fileBasenameNoExtension}.exe"
-                "${workspaceFolder}/a.exe"
+				"-g",
+				//for single file
+				// 	
+				"${file}",
+				//for project with header
+				// 		"${fileDirname}\\*.cpp"
+				"-o",
+				//"${fileDirname}\\${fileBasenameNoExtension}.exe"
+				"${workspaceFolder}/a.exe"
             ],
             "options": {
                 "cwd": "C:\\mingw64\\bin"
