@@ -113,7 +113,7 @@ void Battle::struggle() {
 	musketeers[2].setHP(888);
 	musketeers[3].setHP(777);
 
-    for (int i = 0; i < numOfEvents; ++i)
+    for (int i = 0; i < numOfEvents; i++)
     {
 		//Healing HP
 		for (int l = firstMusketeer + 1; l < firstMusketeer + 4; l++)
@@ -139,21 +139,21 @@ void Battle::struggle() {
 		}
 		//TODO: Chưa xử lí OutRange
 		//Gặp Quái vật
-		int j = firstMusketeer;
+		int j = firstMusketeer;//current musk có crystal
 		int typeOfCrystal = ((events[i] * -1) % 100) / 10;
 		int* currentCrystal = musketeers[firstMusketeer].getCystalPointer(typeOfCrystal);
 		//NULL -> kiếm ptr có crystal tiếp theo
-		for (j = firstMusketeer; j < firstMusketeer + 4; ++j)
+		for (j = firstMusketeer; j < firstMusketeer + 4; j++)
 		{
 			int* tmpCrystal = musketeers[j % 4].getCystalPointer(typeOfCrystal);
-			if (nullptr != tmpCrystal)
+			if (NULL != tmpCrystal)
 			{
 				currentCrystal = tmpCrystal;
 				j = j % 4;
 				break;
 			}
 		}
-		//có Crystal thỏa
+		//có Crystal thỏa hay k 
 		if (currentCrystal != NULL)
 		{
 			(*currentCrystal)--;
@@ -165,6 +165,30 @@ void Battle::struggle() {
 		}
 		else
 		{
+			//Case d, Aramis
+			if (firstMusketeer == 3) {
+				for (j = 3; j < 3 + 4; j++)
+					for (int currentType = 0; currentType < 3; currentType++)
+					{
+						int* tmpCrystal = musketeers[j % 4].getCystalPointer(currentType);
+						if (NULL != tmpCrystal && *tmpCrystal > 1 && (*tmpCrystal) * 10 < musketeers[3].getHP())
+						{
+							int* tmp;
+							manager->allocate(tmp);
+							*tmp = (*tmpCrystal) - 1;
+							//set crystal mới vô Aramis
+							this->musketeers[3].setCystalPointer(typeOfCrystal, tmp);
+							//mất máu 10xlevel nhưng mà vì trên có check < hp rồi nên -> hp - nó >= 1 k xuống 0
+							this->musketeers[3].setHP(this->musketeers[3].getHP() - (*tmpCrystal) * 10);
+							//xóa crystal cũ đi
+							manager->deallocate(musketeers[j % 4].getCystalPointer(currentType));
+							musketeers[j % 4].setCystalPointer(currentType, NULL);
+							goto NEXTEVENT;
+						}
+					}
+				NEXTEVENT: continue;
+			}
+			//đấu
 			float fE;
 			switch (-1 * events[i] % 100)
 			{
@@ -193,6 +217,7 @@ void Battle::struggle() {
 			{
 				musketeers[firstMusketeer].setHP(musketeers[firstMusketeer].getHP() - dmg);
 			}
+			
 		}
     }
 }
