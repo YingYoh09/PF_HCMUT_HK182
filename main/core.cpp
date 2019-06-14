@@ -207,7 +207,7 @@ void Battle::struggle() {
 			}
 			int K = musketeers[0].findMaxPrimeNumber(-1*events[i]);
 			int dmg = floor(events[i]*-1 * fE + int(round(pow(fE,firstMusketeer + 1) * K)) % 100);
-			
+			// mất máu
 			if (musketeers[firstMusketeer].getHP() - dmg < 1)
 			{
 				musketeers[firstMusketeer].setHP(0);
@@ -216,6 +216,8 @@ void Battle::struggle() {
 			else
 			{
 				musketeers[firstMusketeer].setHP(musketeers[firstMusketeer].getHP() - dmg);
+				if (fE == 0.65f)
+					firstMusketeer++;
 			}
 			
 		}
