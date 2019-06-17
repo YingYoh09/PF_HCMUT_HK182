@@ -47,6 +47,7 @@ class Musketeer {
 /* Start block: TO DO
     * You can declare additional methods to complete this assignment
 */
+
 		bool isPrimeNumber(int i);
 		int findMaxPrimeNumber(int a);
 /* End block: TODO */

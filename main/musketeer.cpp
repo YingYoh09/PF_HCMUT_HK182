@@ -141,6 +141,7 @@ void Musketeer::setHP(int HP) {
 /* Start block: TO DO
     * You can write anything in this block (make sure there is no errors) and complete below methods
 */
+
 bool Musketeer::isPrimeNumber(int i)
 {
 	if (i < 2) return 0;

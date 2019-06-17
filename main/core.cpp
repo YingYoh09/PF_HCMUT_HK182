@@ -1,5 +1,5 @@
-﻿#include "core.h"
-#include <algorithm>
+#include "core.h"
+#include <math.h>
 
 /* Start block: DO NOT CHANGE
     * Please do not change anything in this code block (including whitespace, empty lines)
@@ -116,28 +116,63 @@ void Battle::struggle() {
     for (int i = 0; i < numOfEvents; i++)
     {
 		//Healing HP
-		for (int l = firstMusketeer + 1; l < firstMusketeer + 4; l++)
+		for (int l = firstMusketeer + 1; l < firstMusketeer + 4; l++) {
+			int tmp = musketeers[l % 4].getHP();
 			switch (l % 4)
 			{
 			case 0:
-				musketeers[l % 4].setHP(min(999, musketeers[l % 4].getHP() + 200));
+				tmp = tmp + 200;
+				if (999 > tmp) musketeers[l % 4].setHP(tmp);
+				else musketeers[l % 4].setHP(999);
 				break;
 			case 1:
-				musketeers[l % 4].setHP(min(900, musketeers[l % 4].getHP() + 150));
+				tmp = tmp + 150;
+				if (900 > tmp) musketeers[l % 4].setHP(tmp);
+				else musketeers[l % 4].setHP(900);
 				break;
 			case 2:
-				musketeers[l % 4].setHP(min(888, musketeers[l % 4].getHP() + 100));
+				tmp = tmp + 100;
+				if (888 > tmp) musketeers[l % 4].setHP(tmp);
+				else musketeers[l % 4].setHP(888);
 				break;
 			case 3:
-				musketeers[l % 4].setHP(min(777, musketeers[l % 4].getHP() + 50));
+				tmp = tmp + 50;
+				if (777 > tmp) musketeers[l % 4].setHP(tmp);
+				else musketeers[l % 4].setHP(777);
 				break;
 			}
+		}
 		//Nhặt Crystal
 		if (events[i] > 9 && events[i] < 40)
 		{
-			
+			if (events[i] % 10 == 0) continue;
+			int typeOfCystal = events[i] / 10;
+			if (musketeers[firstMusketeer].getCystalPointer(typeOfCystal) == NULL)
+			{
+				int* tmp;
+				manager->allocate(tmp);
+				*tmp = events[i] % 10;
+				musketeers[firstMusketeer].setCystalPointer(typeOfCystal, tmp);
+			}
+			else if ((*musketeers[firstMusketeer].getCystalPointer(typeOfCystal)) < events[i] % 10)
+			{
+				(*musketeers[firstMusketeer].getCystalPointer(typeOfCystal)) = events[i] % 10;
+			}
+			continue;
 		}
-		//TODO: Chưa xử lí OutRange
+		//Out Range
+		if (events[i] >= 0) continue;
+		switch ((events[i] * -1) % 100)
+		{
+		case 11:
+		case 12:
+		case 21:
+		case 22:
+		case 31:
+		case 32:
+			break;
+		default: continue;
+		}
 		//Gặp Quái vật
 		int j = firstMusketeer;//current musk có crystal
 		int typeOfCrystal = ((events[i] * -1) % 100) / 10;
@@ -168,7 +203,7 @@ void Battle::struggle() {
 			//Case d, Aramis
 			if (firstMusketeer == 3) {
 				for (j = 3; j < 3 + 4; j++)
-					for (int currentType = 0; currentType < 3; currentType++)
+					for (int currentType = 1; currentType < 4; currentType++)
 					{
 						int* tmpCrystal = musketeers[j % 4].getCystalPointer(currentType);
 						if (NULL != tmpCrystal && *tmpCrystal > 1 && (*tmpCrystal) * 10 < musketeers[3].getHP())
@@ -206,18 +241,20 @@ void Battle::struggle() {
 				break;
 			}
 			int K = musketeers[0].findMaxPrimeNumber(-1*events[i]);
-			int dmg = floor(events[i]*-1 * fE + int(round(pow(fE,firstMusketeer + 1) * K)) % 100);
+			float fEpow = pow(fE, firstMusketeer + 1);
+			float modd = fEpow * K;
+			int dmg = floor((-1)*(events[i])*fE + int (modd) % 100);
 			// mất máu
 			if (musketeers[firstMusketeer].getHP() - dmg < 1)
 			{
 				musketeers[firstMusketeer].setHP(0);
-				firstMusketeer++;
+				firstMusketeer = (firstMusketeer + 1) % 4;
 			}
 			else
 			{
 				musketeers[firstMusketeer].setHP(musketeers[firstMusketeer].getHP() - dmg);
 				if (fE == 0.65f)
-					firstMusketeer++;
+					firstMusketeer = (firstMusketeer + 1) % 4;
 			}
 			
 		}
